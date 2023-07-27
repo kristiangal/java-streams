@@ -17,7 +17,15 @@ public class Filtering {
     @Test
     public void filter() throws Exception {
         List<Car> cars = MockData.getCars();
+
+        List<Car> cheapCars = cars.stream()
+                .filter(car -> car.getPrice() <= 20000.00)
+                .toList();
+
+        cheapCars.forEach(System.out::println);
     }
+
+
 
     @Test
     public void dropWhile() throws Exception {

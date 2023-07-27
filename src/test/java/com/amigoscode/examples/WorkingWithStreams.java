@@ -12,5 +12,14 @@ public class WorkingWithStreams {
     @Test
     void steams() {
         List<String> names = List.of("Amigoscode", "Alex", "Zara");
+
+//        Create a stream from a list
+        Stream<String> stream = names.stream();
+        
+        String[] nameArr = {};
+//        Create a stream from an array
+        Stream<String> stringStream = Arrays.stream(nameArr).filter(null);
+
+
     }
 }
