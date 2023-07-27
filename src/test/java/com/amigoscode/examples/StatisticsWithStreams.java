@@ -6,72 +6,74 @@ import com.amigoscode.mockdata.MockData;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.DoubleSummaryStatistics;
-import java.util.List;
+import java.util.*;
+import java.util.stream.DoubleStream;
 
 public class StatisticsWithStreams {
 
     @Test
     public void count() throws Exception {
         List<Car> cars = MockData.getCars();
-        long count = cars.stream()
-                .filter(car -> car.getMake().equalsIgnoreCase("Ford"))
-                .filter(car -> car.getYear() > 2010)
-                .count();
-        System.out.println(count);
+
+        long numberOfCars = cars.stream().count();
+        System.out.println(numberOfCars);
     }
 
     @Test
     public void min() throws Exception {
         List<Car> cars = MockData.getCars();
-        double min = cars.stream()
-                .mapToDouble(Car::getPrice)
-                .min()
-                .orElse(0);
+        Optional<Car> min = cars.stream().min(Comparator.comparing(Car::getPrice));
+        Double price = 0.00;
+
+        if(min.isPresent()){
+            price = min.get().getPrice();
+        } else{
+            throw new Exception("This is an exception message.");
+        }
+
         System.out.println(min);
+        System.out.println(price);
     }
 
     @Test
     public void max() throws Exception {
         List<Car> cars = MockData.getCars();
-        double max = cars.stream()
-                .mapToDouble(Car::getPrice)
-                .max()
-                .orElse(0);
-        System.out.println(max);
+
+        Optional<Car> max = cars.stream().max(Comparator.comparing(Car::getPrice));
+        double price = 0.00;
+
+        if(max.isPresent()){
+            price = max.get().getPrice();
+        } else {
+            throw new Exception("This is another exception message");
+        }
+
+        System.out.println(price);
     }
 
 
     @Test
     public void average() throws Exception {
         List<Car> cars = MockData.getCars();
-        double average = cars.stream()
-                .mapToDouble(Car::getPrice)
-                .average()
-                .orElse(0);
-        System.out.println(average);
+
+        double average = cars.stream().mapToDouble(Car::getPrice).average().orElse(0.00);
+
+        System.out.println(Math.floor(average));
+
     }
 
     @Test
     public void sum() throws Exception {
         List<Car> cars = MockData.getCars();
-        double sum = cars.stream()
-                .mapToDouble(Car::getPrice)
-                .sum();
-        System.out.println(BigDecimal.valueOf(sum));
+
+        double sum = cars.stream().mapToDouble(Car::getPrice).sum();
+
+        System.out.println((int)sum);
     }
 
     @Test
     public void statistics() throws Exception {
         List<Car> cars = MockData.getCars();
-        DoubleSummaryStatistics statistics = cars.stream()
-                .mapToDouble(Car::getPrice)
-                .summaryStatistics();
-        System.out.println(statistics.getCount());
-        System.out.println(statistics.getMin());
-        System.out.println(statistics.getMax());
-        System.out.println(statistics.getAverage());
-        System.out.println(BigDecimal.valueOf(statistics.getSum()));
     }
 
 }
