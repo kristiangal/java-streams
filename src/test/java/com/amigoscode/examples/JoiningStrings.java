@@ -20,6 +20,7 @@ public class JoiningStrings {
             myString = myString.concat(name) + ", ";
             stringWithoutEndingComma = myString.substring(0, myString.length() - 2);
         }
+
         System.out.println(stringWithoutEndingComma);
     }
 

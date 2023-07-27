@@ -30,6 +30,14 @@ public class Sorting {
     @Test
     public void topTenMostExpensiveBlueCars() throws IOException {
         List<Car> cars = MockData.getCars();
+
+        List<Car> topTenMostExpensiveCars = cars.stream()
+                .filter(car -> car.getColor().equals("Blue"))
+                .sorted(Comparator.comparing(Car::getPrice).reversed())
+                .limit(10)
+                .toList();
+
+        topTenMostExpensiveCars.forEach(System.out::println);
     }
 
 }
